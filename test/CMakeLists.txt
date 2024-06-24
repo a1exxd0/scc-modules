@@ -8,9 +8,6 @@ file(GLOB SOURCES ${PROJECT_SOURCE_DIR}/src/*.cpp)
 find_package(GTest REQUIRED)
 include_directories(${GTEST_INCLUDE_DIRS})
 
-# Find benchmarking framework
-find_package(benchmark REQUIRED)
-
 # Add the test executable
 add_executable(fake_test ${SOURCES} fake_test.cpp )
 target_link_libraries(fake_test ${GTEST_LIBRARIES} pthread)
