@@ -25,5 +25,5 @@ ctest
 ```
 The final executable will be:
 ```sh
-${PROJECT_SOURCE_DIR}/src/smodule
+${PROJECT_SOURCE_DIR}/build/src/smodule
 ```
