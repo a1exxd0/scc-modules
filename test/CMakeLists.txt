@@ -2,13 +2,31 @@
 
 # Include the main source directory to access headers
 include_directories(${CMAKE_SOURCE_DIR}/include)
+
+# Set SOURCES to CPP files
 file(GLOB SOURCES ${PROJECT_SOURCE_DIR}/src/*.cpp)
 
 # Find the testing framework
 find_package(GTest REQUIRED)
 include_directories(${GTEST_INCLUDE_DIRS})
 
-# Add the test executable
-add_executable(fake_test ${SOURCES} fake_test.cpp )
-target_link_libraries(fake_test ${GTEST_LIBRARIES} pthread)
-add_test(NAME fake_test COMMAND fake_test)
+# Specify test directory 
+set(TEST_FILES_DIRECTORY ${PROJECT_SOURCE_DIR}/test)
+
+# Recursively get all .cpp files in test/
+file(GLOB_RECURSE TEST_FILES ${TEST_FILES_DIRECTORY} *.cpp)
+
+# Iterate over each file
+foreach(TEST_FILE ${TEST_FILES})
+    # Get the file name without extension
+    get_filename_component(TEST_NAME ${TEST_FILE} NAME_WE)
+    
+    # Create an executable for each test
+    add_executable(${TEST_NAME} ${SOURCES} ${TEST_FILE})
+    
+    # Link the GTest and pthread libraries
+    target_link_libraries(${TEST_NAME} ${GTEST_LIBRARIES} pthread)
+    
+    # Add a test with the same name as the executable
+    add_test(NAME ${TEST_NAME} COMMAND ${TEST_NAME})
+endforeach()
