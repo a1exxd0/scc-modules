@@ -5,6 +5,14 @@
 #include <map>
 #include <functional>
 
+/**
+ * TODO:
+ * 
+ * Add in module-whatis stuff?
+ * test modulefile?
+ * initadd?
+ */
+
 namespace smod {
 
 // ---------- INPUT ARGUMENT STRUCT ---------- //
@@ -78,20 +86,36 @@ auto func_avail = [] [[nodiscard]] (std::vector<std::string> params) noexcept(fa
     }
 };
 
+auto func_load = [] [[nodiscard]] (std::vector<std::string> params) noexcept(false) {
+    if (params.size() != 1) {
+        throw std::invalid_argument(
+            "Expected one modulefile argument for load, recieved " + params.size()
+        );
+    } else {
+        input_arguments res;
+        res.load = {true, params[0]};
+        return res;
+    }
+};
+
 std::map<std::string, std::function<input_arguments(std::vector<std::string>)>>
 subcommand_map = {
     {"avail", func_avail},
+    {"load", func_load}
 };
 
-/**
- * TODO:
- * 
- * Add in module-whatis stuff?
- * test modulefile?
- * initadd?
- */
-
 [[nodiscard]] input_arguments set_subcommand(std::string &s, std::vector<std::string> params) {
+
+    // Verify input doesn't contain keywords to avoid errors and misuse
+    for (const auto &param: params) {
+        if (subcommand_map.find(param) != subcommand_map.end()) {
+            throw std::invalid_argument(
+                "Unexpected subcommand placement. Try `smodule help` for help."
+            );
+        }
+    }
+
+    // Attempt to parse the command
     if (subcommand_map.find(s) != subcommand_map.end()) {
         auto todo = subcommand_map[s];
         return todo(params);
@@ -105,12 +129,15 @@ subcommand_map = {
 // ---------- PUBLIC METHODS ---------- //
 
 [[nodiscard]] input_arguments get_arguments(std::size_t argc, char* argv[]) {
+
+    // `smodule` command by itself is invalid.
     if (argc == 0) {
         throw std::invalid_argument(
             "Command `smodule` requires atleast 1 argument. Try `smodule help` for help."
         );
     }
 
+    // Set subcommand placement + args
     std::string subcommand = argv[0];
     std::vector<std::string> args;
 
@@ -118,10 +145,10 @@ subcommand_map = {
         args.push_back(argv[i]);
     }
 
+    // Try and parse
     try {
         return set_subcommand(subcommand, args);
     } catch (const std::invalid_argument &e) {
-        std::cerr << "Error found on command parse.\n"; 
         throw e;
     }
 }
