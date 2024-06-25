@@ -5,6 +5,7 @@ include_directories(${CMAKE_SOURCE_DIR}/include)
 
 # Set SOURCES to CPP files
 file(GLOB SOURCES ${PROJECT_SOURCE_DIR}/src/*.cpp)
+list(REMOVE_ITEM SOURCES ${PROJECT_SOURCE_DIR}/src/main.cpp)
 
 # Find the testing framework
 find_package(GTest REQUIRED)
