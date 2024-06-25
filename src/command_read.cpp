@@ -107,19 +107,37 @@ auto func_load = [] [[nodiscard]] (std::vector<std::string> params) noexcept(fal
     }
 };
 
+auto func_unload = [] [[nodiscard]] (std::vector<std::string> params) noexcept(false) {
+    if (params.size() != 1) {
+        std::ostringstream stream;
+        stream << "Expected 1 modulefile argument for `unload`, recieved " << params.size() << ". ";
+        stream << "Try `smodule help` for help.";
+
+        throw std::invalid_argument(
+            stream.str()
+        );
+    } else {
+        input_arguments res;
+        res.unload = {true, params[0]};
+        return res;
+    }
+};
+
 std::map<std::string, std::function<input_arguments(std::vector<std::string>)>>
 subcommand_map = {
     {"avail", func_avail},
-    {"load", func_load}
+    {"load", func_load},
+    {"unload", func_unload},
 };
 
 [[nodiscard]] input_arguments set_subcommand(std::string &s, std::vector<std::string> params) {
-
     // Verify input doesn't contain keywords to avoid errors and misuse
     for (const auto &param: params) {
         if (subcommand_map.find(param) != subcommand_map.end()) {
+            std::ostringstream stream;
+            stream << "Unexpected subcommand `" << param << "`. Try `smodule help` for help.";
             throw std::invalid_argument(
-                "Unexpected subcommand placement. Try `smodule help` for help."
+                stream.str()
             );
         }
     }
@@ -140,17 +158,17 @@ subcommand_map = {
 [[nodiscard]] input_arguments get_arguments(std::size_t argc, char* argv[]) {
 
     // `smodule` command by itself is invalid.
-    if (argc == 0) {
+    if (argc <= 1) {
         throw std::invalid_argument(
             "Command `smodule` requires atleast 1 argument. Try `smodule help` for help."
         );
     }
 
     // Set subcommand placement + args
-    std::string subcommand = argv[0];
+    std::string subcommand = argv[1];
     std::vector<std::string> args;
 
-    for (std::size_t i = 1; i < argc; i++) {
+    for (std::size_t i = 2; i < argc; i++) {
         args.push_back(argv[i]);
     }
 
