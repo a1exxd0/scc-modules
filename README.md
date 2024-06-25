@@ -1,5 +1,10 @@
 # SCC Module System
-An alternative to the standard modulecmd, using C++, with no TCL.
+An alternative to the standard modulecmd, using C++, with no TCL. It ties in together
+a "module load" type system from modulecmd, with flavours. What does this mean for you?
+
+Upon doing a "module avail", you may be presented with 100s of modules, but with a flavours
+system, it will only show relevant modules to ones you have already loaded, reducing 100s to
+a clear few of the specific modules you require.
 
 # Why?
 We needed flavours to work, but it was buggy and written in TCL and Perl.
@@ -27,3 +32,6 @@ The final executable will be:
 ```sh
 ${PROJECT_SOURCE_DIR}/build/src/smodule
 ```
+
+# TODO
+- Implement functions
