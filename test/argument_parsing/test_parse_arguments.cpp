@@ -10,7 +10,7 @@ TEST(Full_Parse_Arguments, Keyword_As_Parameter) {
     char arg0[] = "avail";
     char arg1[] = "load";
     char* args[] = {arg0, arg1};
-    EXPECT_THROW(smod::get_arguments(0, args), std::invalid_argument);
+    EXPECT_THROW(smod::get_arguments(2, args), std::invalid_argument);
 }
 
 TEST(Full_Parse_Arguments, Avail_Positive) {
@@ -41,6 +41,14 @@ TEST(Full_Parse_Arguments, Load_Positive) {
     auto test_case = smod::get_arguments(2, args);
 
     ASSERT_EQ(test_case, expected);
+}
+
+TEST(Full_Parse_Arguments, Load_Too_Many_Args) {
+    char arg0[] = "load";
+    char arg1[] = "cpp15";
+    char arg2[] = "openmpi/cpp15";
+    char* args[] = {arg0, arg1, arg2};
+    EXPECT_THROW(smod::get_arguments(3, args), std::invalid_argument);
 }
 
 int main(int argc, char **argv) {
