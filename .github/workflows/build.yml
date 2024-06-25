@@ -18,19 +18,13 @@ jobs:
     # Test on both Linux and Mac
     strategy:
       matrix:
-        os: [rocky, ubuntu-latest, macos-latest]
+        os: [ubuntu-latest, macos-latest]
 
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
 
     # Install dependencies
-    - name: Install dependencies on Rocky Linux
-      if: matrix.os == 'rocky'
-      run: |
-        sudo dnf -y update
-        sudo dnf -y install cmake gtest-devel
-        
     - name: Install dependencies on Ubuntu
       if: matrix.os == 'ubuntu-latest'
       run: |
