@@ -6,7 +6,7 @@ Upon doing a "module avail", you may be presented with 100s of modules, but with
 system, it will only show relevant modules to ones you have already loaded, reducing 100s to
 a clear few of the specific modules you require.
 
-This is tested for `rocky`, `ubuntu-latest` and `macos-latest`.
+This is tested for `ubuntu-latest` and `macos-latest`.
 # Why?
 We needed flavours to work, but it was buggy and written in TCL and Perl.
 It didn't seem too complicated to do so why not?
@@ -45,6 +45,3 @@ The final executable will be:
 ```sh
 ${PROJECT_SOURCE_DIR}/build/src/smodule
 ```
-
-# TODO
-- Implement functions
