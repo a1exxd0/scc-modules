@@ -1,8 +1,8 @@
 cmake_minimum_required(VERSION 3.22)
 project(scc-modules)
 
-# Set minimum C++ version
-set(CMAKE_CXX_STANDARD 20)
+# Set minimum C++ version (need 23 for "nodiscard" lambdas)
+set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 # Set compiler flags

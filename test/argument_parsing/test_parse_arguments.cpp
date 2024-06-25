@@ -1,11 +1,12 @@
 #include <gtest/gtest.h>
 #include "command_read.h"
 
-TEST(Parse_Arguments, Argument_Separation) {
-    smod::input_arguments expected = {{"-d", "-f"}, true};
+TEST(Full_Parse_Arguments, Avail_True) {
+    smod::input_arguments expected;
+    expected.avail = true;
 
-    char* args[] = {"-d", "-f"};
-    smod::input_arguments test_case = smod::get_arguments(2, args);
+    char* args[] = {"avail"};
+    auto test_case = smod::get_arguments(1, args);
 
-    ASSERT_EQ(test_case, expected);
+    ASSERT_EQ(expected, test_case);
 }
