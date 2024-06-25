@@ -51,6 +51,13 @@ TEST(Full_Parse_Arguments, Load_Too_Many_Args) {
     EXPECT_THROW(smod::get_arguments(3, args), std::invalid_argument);
 }
 
+TEST(Full_Parse_Arguments, Load_Too_Few_Args) {
+    char arg0[] = "load";
+    char* args[] = {arg0};
+    EXPECT_THROW(smod::get_arguments(1, args), std::invalid_argument);
+}
+
+
 int main(int argc, char **argv) {
     ::testing::InitGoogleTest(&argc, argv);
     return RUN_ALL_TESTS();
