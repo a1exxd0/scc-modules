@@ -18,13 +18,19 @@ jobs:
     # Test on both Linux and Mac
     strategy:
       matrix:
-        os: [ubuntu-latest, macos-latest]
+        os: [rocky, ubuntu-latest, macos-latest]
 
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
 
     # Install dependencies
+    - name: Install dependencies on Rocky Linux
+      if: matrix.os == 'rocky'
+      run: |
+        sudo dnf -y update
+        sudo dnf -y install cmake gtest-devel
+        
     - name: Install dependencies on Ubuntu
       if: matrix.os == 'ubuntu-latest'
       run: |
@@ -37,7 +43,8 @@ jobs:
         brew update
         brew install cmake
         brew install googletest
-      
+
+    # Configure, build, and test project
     - name: Configure CMake
       # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
       run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
