@@ -4,6 +4,7 @@
 #include <string>
 #include <map>
 #include <functional>
+#include <sstream>
 
 /**
  * TODO:
@@ -76,8 +77,12 @@ bool operator==(const input_arguments &arg1, const input_arguments &arg2) {
 
 auto func_avail = [] [[nodiscard]] (std::vector<std::string> params) noexcept(false) {
     if (params.size() != 0) {
+        std::ostringstream stream;
+        stream << "Expected 0 modulefile arguments for `load`, recieved " << params.size() << ". ";
+        stream << "Try `smodule help` for help.";
+
         throw std::invalid_argument(
-            "Subcommand `avail` expects no arguments. Try `smodule avail`."
+            stream.str()
         );
     } else {
         input_arguments res;
@@ -88,8 +93,12 @@ auto func_avail = [] [[nodiscard]] (std::vector<std::string> params) noexcept(fa
 
 auto func_load = [] [[nodiscard]] (std::vector<std::string> params) noexcept(false) {
     if (params.size() != 1) {
+        std::ostringstream stream;
+        stream << "Expected 1 modulefile argument for `load`, recieved " << params.size() << ". ";
+        stream << "Try `smodule help` for help.";
+
         throw std::invalid_argument(
-            "Expected one modulefile argument for load, recieved " + params.size()
+            stream.str()
         );
     } else {
         input_arguments res;
