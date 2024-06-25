@@ -120,7 +120,7 @@ subcommand_map = {
 
     try {
         return set_subcommand(subcommand, args);
-    } catch (const std::exception &e) {
+    } catch (const std::invalid_argument &e) {
         std::cerr << "Error found on command parse.\n"; 
         throw e;
     }
