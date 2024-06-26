@@ -14,6 +14,7 @@ TEST(Full_Parse_Arguments_2, Swap_Positive)
     auto test_case = smod::get_arguments(4, args);
 
     ASSERT_EQ(test_case, expected);
+    delete[] args;
 }
 
 TEST(Full_Parse_Arguments_2, Swap_Alias_Switch) 
@@ -25,18 +26,21 @@ TEST(Full_Parse_Arguments_2, Swap_Alias_Switch)
     auto test_case = smod::get_arguments(4, args);
 
     ASSERT_EQ(test_case, expected);
+    delete[] args;
 }
 
 TEST(Full_Parse_Arguments_2, Swap_Too_Many_Args) 
 {
     auto args = smod::format_args({"smodule", "swap", "cpp15", "cpp17", "cpp20"});
     EXPECT_THROW(smod::get_arguments(5, args), std::invalid_argument);
+    delete[] args;
 }
 
 TEST(Full_Parse_Arguments_2, Swap_Too_Few_Args) 
 {
     auto args = smod::format_args({"smodule", "swap", "cpp15"});
     EXPECT_THROW(smod::get_arguments(3, args), std::invalid_argument);
+    delete[] args;
 }
 
 int main(int argc, char **argv) 

@@ -43,15 +43,24 @@ bool operator==(const input_arguments &arg1, const input_arguments &arg2)
 
 // ---------- TEST HELPER ---------- //
 
-char** format_args(std::vector<std::string> cmds) 
+char** format_args(std::vector<std::string> &&cmds) 
 {
-    char** args = new char*[cmds.size()+1];
+    char** args = new char*[cmds.size()];
 
     for (std::size_t i = 0; i < cmds.size(); i++) {
         args[i] = const_cast<char*>(cmds[i].c_str());
     }
 
-    args[cmds.size()] = nullptr;
+    return args;
+}
+
+char** format_args(std::vector<std::string> &cmds) 
+{
+    char** args = new char*[cmds.size()];
+
+    for (std::size_t i = 0; i < cmds.size(); i++) {
+        args[i] = const_cast<char*>(cmds[i].c_str());
+    }
 
     return args;
 }

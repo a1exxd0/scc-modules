@@ -53,7 +53,15 @@ input_arguments get_arguments(std::size_t argc, char* argv[]);
  * 
  * @return an array of c-style strings of length (cmds.size() + 1)
  */
-char** format_args(std::vector<std::string> cmds);
+char** format_args(std::vector<std::string> &&cmds);
+
+/**
+ * @brief Formats a vector of string arguments into expected format
+ * char*[] for passing into get_arguments(...)
+ * 
+ * @return an array of c-style strings of length (cmds.size() + 1)
+ */
+char** format_args(std::vector<std::string> &cmds);
     
 } // namespace smod
 
