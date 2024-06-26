@@ -40,6 +40,20 @@ bool operator==(const input_arguments &arg1, const input_arguments &arg2) {
         arg1.path == arg2.path;
 }
 
+// ---------- TEST HELPER ---------- //
+
+char** format_args(std::vector<std::string> cmds) 
+{
+    char** args = new char*[cmds.size()+1];
+
+    for (std::size_t i = 0; i < cmds.size(); i++) {
+        args[i] = const_cast<char*>(cmds[i].c_str());
+    }
+
+    args[cmds.size()] = nullptr;
+
+    return args;
+}
 
 // ---------- PRIVATE METHODS ---------- //
 
@@ -150,6 +164,9 @@ auto func_spider = create_func_one([](input_arguments &res, const std::string &p
 auto func_swap = create_func_multiple([](input_arguments &res, const std::vector<std::string> &params)
 { res.swap = {true, params[0], params[1]}; }, "switch", 2);
 
+auto func_save = create_func_one([](input_arguments &res, const std::string &param)
+{ res.save = {true, param}; }, "save");
+
 std::map<std::string, std::function<input_arguments(std::vector<std::string>)>>
 subcommand_map = {
     {"avail", func_avail},
@@ -159,6 +176,7 @@ subcommand_map = {
     {"spider", func_spider},
     {"swap", func_swap},
     {"switch", func_swap}, // "switch" is an alias for "swap"
+    {"save", func_save},
 };
 
 [[nodiscard]] input_arguments set_subcommand(std::string &s, std::vector<std::string> params) 
