@@ -37,6 +37,14 @@ bool operator==(const input_arguments &arg1, const input_arguments &arg2);
 
 // ---------- METHODS ---------- //
 
+/**
+ * @brief Accepts the same elements as main() function and parses it into
+ * the input_arguments struct.
+ * 
+ * @param argc: argument count (including the executable)
+ * @param argv: array of arguments of length argc
+ * @throws std::invalid argument if something unexpected is inputted
+ */
 input_arguments get_arguments(std::size_t argc, char* argv[]);
     
 } // namespace smod
