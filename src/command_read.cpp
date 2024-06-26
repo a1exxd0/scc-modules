@@ -18,7 +18,8 @@ namespace smod {
 
 // ---------- INPUT ARGUMENT STRUCT ---------- //
 
-bool operator==(const input_arguments &arg1, const input_arguments &arg2) {
+bool operator==(const input_arguments &arg1, const input_arguments &arg2) 
+{
     return 
         arg1.avail == arg2.avail &&
         arg1.load == arg2.load &&
@@ -168,7 +169,8 @@ auto func_save = create_func_one([](input_arguments &res, const std::string &par
 { res.save = {true, param}; }, "save");
 
 std::map<std::string, std::function<input_arguments(std::vector<std::string>)>>
-subcommand_map = {
+subcommand_map = 
+{
     {"avail", func_avail},
     {"load", func_load},
     {"unload", func_unload},
