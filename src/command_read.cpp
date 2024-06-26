@@ -131,6 +131,7 @@ subcommand_map = {
     {"avail", func_avail},
     {"load", func_load},
     {"unload", func_unload},
+    {"rm", func_unload},
 };
 
 [[nodiscard]] input_arguments set_subcommand(std::string &s, std::vector<std::string> params) 
