@@ -75,81 +75,89 @@ bool operator==(const input_arguments &arg1, const input_arguments &arg2) {
  * "path" -> print path to modulefile
  */
 
-auto func_avail = [] [[nodiscard]] (std::vector<std::string> params) noexcept(false) 
+/**
+ * @brief Template for interpreting a zero parameter subcommand
+ */
+template<typename Func>
+auto create_func_zero(Func func, const std::string func_name)
 {
-    if (params.size() != 0) {
-        std::ostringstream stream;
-        stream << "Expected 0 modulefile arguments for `load`, recieved " << params.size() << ". ";
-        stream << "Try `smodule help` for help.";
-
-        throw std::invalid_argument(
-            stream.str()
-        );
-    } else {
+    return [func, func_name] [[nodiscard]] (std::vector<std::string> params) noexcept(false) {
+        if (params.size() != 0) {
+            std::ostringstream stream;
+            stream << "Expected 0 modulefile arguments for `" << func_name << "`, ";
+            stream << "received " << params.size() << ". ";
+            stream << "Try `smodule help` for help.";
+            throw std::invalid_argument(stream.str());
+        }
         input_arguments res;
-        res.avail = true;
+        func(res);
         return res;
-    }
-};
+    };
+}
 
-auto func_load = [] [[nodiscard]] (std::vector<std::string> params) noexcept(false) 
+/**
+ * @brief Template for interpreting a single parameter subcommand
+ */
+template<typename Func>
+auto create_func_one(Func func, const std::string func_name)
 {
-    if (params.size() != 1) {
-        std::ostringstream stream;
-        stream << "Expected 1 modulefile argument for `load`, recieved " << params.size() << ". ";
-        stream << "Try `smodule help` for help.";
-
-        throw std::invalid_argument(
-            stream.str()
-        );
-    } else {
+    return [func, func_name] [[nodiscard]] (std::vector<std::string> params) noexcept(false) {
+        if (params.size() != 1) {
+            std::ostringstream stream;
+            stream << "Expected 1 modulefile argument for `" << func_name << "`, ";
+            stream << "received " << params.size() << ". ";
+            stream << "Try `smodule help` for help.";
+            throw std::invalid_argument(stream.str());
+        }
         input_arguments res;
-        res.load = {true, params[0]};
+        func(res, params[0]);
         return res;
-    }
-};
+    };
+}
 
-auto func_unload = [] [[nodiscard]] (std::vector<std::string> params) noexcept(false) 
+/**
+ * @brief Template for interpreting a multiple parameter subcommand
+ */
+template<typename Func>
+auto create_func_multiple(Func func, const std::string func_name, size_t arg_count)
 {
-    if (params.size() != 1) {
-        std::ostringstream stream;
-        stream << "Expected 1 modulefile argument for `unload`, recieved " << params.size() << ". ";
-        stream << "Try `smodule help` for help.";
-
-        throw std::invalid_argument(
-            stream.str()
-        );
-    } else {
+    return [func, func_name, arg_count] [[nodiscard]] (std::vector<std::string> params) noexcept(false) {
+        if (params.size() != 1) {
+            std::ostringstream stream;
+            stream << "Expected " << arg_count << "modulefile arguments for `";
+            stream << func_name << "`, " << "received " << params.size() << ". ";
+            stream << "Try `smodule help` for help>>.";
+            throw std::invalid_argument(stream.str());
+        }
         input_arguments res;
-        res.unload = {true, params[0]};
+        func(res, params);
         return res;
-    }
-};
+    };
+}
 
-auto func_spider = [] [[nodiscard]] (std::vector<std::string> params) noexcept(false)
-{
-    if (params.size() != 1) {
-        std::ostringstream stream;
-        stream << "Expected 1 modulefile argument for `spider`, recieved " << params.size() << ". ";
-        stream << "Try `smodule help` for help.";
+auto func_avail = create_func_zero([](input_arguments &res)
+{ res.avail = {true}; }, "avail");
 
-        throw std::invalid_argument(
-            stream.str()
-        );
-    } else {
-        input_arguments res;
-        res.spider = {true, params[0]};
-        return res;
-    }
-};
+auto func_load = create_func_one([](input_arguments &res, const std::string &param)
+{ res.load = {true, param}; }, "load");
+
+auto func_unload = create_func_one([](input_arguments &res, const std::string &param)
+{ res.unload = {true, param}; }, "unload");
+
+auto func_spider = create_func_one([](input_arguments &res, const std::string &param)
+{ res.spider = {true, param}; }, "spider");
+
+// auto func_switch = create_func_multiple([](input_arguments &res, const std::vector<std::string> &params)
+// { res.swap = {true, params[0], params[1]}; }, "switch", 2);
 
 std::map<std::string, std::function<input_arguments(std::vector<std::string>)>>
 subcommand_map = {
     {"avail", func_avail},
     {"load", func_load},
     {"unload", func_unload},
-    {"rm", func_unload},
+    {"rm", func_unload}, // "rm" is an alias for "unload"
     {"spider", func_spider},
+    // {""}
 };
 
 [[nodiscard]] input_arguments set_subcommand(std::string &s, std::vector<std::string> params) 
