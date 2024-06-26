@@ -2,13 +2,15 @@
 #include "command_read.h"
 
 // ---------- BASIC PARSE CHECKS ---------- //
-TEST(Full_Parse_Arguments, Empty_Parse) {
+TEST(Full_Parse_Arguments, Empty_Parse) 
+{
     char arg[] = "smodule";
     char* args[] = {arg};
     EXPECT_THROW(smod::get_arguments(1, args), std::invalid_argument);
 }
 
-TEST(Full_Parse_Arguments, Keyword_As_Parameter) {
+TEST(Full_Parse_Arguments, Keyword_As_Parameter) 
+{
     char arg[] = "smodule";
     char arg0[] = "avail";
     char arg1[] = "load";
@@ -16,7 +18,8 @@ TEST(Full_Parse_Arguments, Keyword_As_Parameter) {
     EXPECT_THROW(smod::get_arguments(3, args), std::invalid_argument);
 }
 
-TEST(Full_Parse_Arguments, No_Command) {
+TEST(Full_Parse_Arguments, No_Command) 
+{
     char arg[] = "smodule";
     char arg0[] = "cpp15";
     char arg1[] = "openmpi/cpp-15";
@@ -26,7 +29,8 @@ TEST(Full_Parse_Arguments, No_Command) {
 
 // ---------- AVAIL ---------- //
 
-TEST(Full_Parse_Arguments, Avail_Positive) {
+TEST(Full_Parse_Arguments, Avail_Positive) 
+{
     smod::input_arguments expected;
     expected.avail = true;
 
@@ -38,7 +42,8 @@ TEST(Full_Parse_Arguments, Avail_Positive) {
     ASSERT_EQ(expected, test_case);
 }
 
-TEST(Full_Parse_Arguments, Avail_Negative) {
+TEST(Full_Parse_Arguments, Avail_Negative) 
+{
     char arg[] = "smodule";
     char arg0[] = "avail";
     char arg1[] = "cpp15";
@@ -48,7 +53,8 @@ TEST(Full_Parse_Arguments, Avail_Negative) {
 
 // ---------- LOAD ---------- //
 
-TEST(Full_Parse_Arguments, Load_Positive) {
+TEST(Full_Parse_Arguments, Load_Positive) 
+{
     smod::input_arguments expected;
     expected.load = {true, "cpp15"};
 
@@ -61,7 +67,8 @@ TEST(Full_Parse_Arguments, Load_Positive) {
     ASSERT_EQ(test_case, expected);
 }
 
-TEST(Full_Parse_Arguments, Load_Too_Many_Args) {
+TEST(Full_Parse_Arguments, Load_Too_Many_Args) 
+{
     char arg[] = "smodule";
     char arg0[] = "load";
     char arg1[] = "cpp15";
@@ -70,7 +77,8 @@ TEST(Full_Parse_Arguments, Load_Too_Many_Args) {
     EXPECT_THROW(smod::get_arguments(4, args), std::invalid_argument);
 }
 
-TEST(Full_Parse_Arguments, Load_Too_Few_Args) {
+TEST(Full_Parse_Arguments, Load_Too_Few_Args) 
+{
     char arg[] = "smodule";
     char arg0[] = "load";
     char* args[] = {arg, arg0};
@@ -79,7 +87,8 @@ TEST(Full_Parse_Arguments, Load_Too_Few_Args) {
 
 // ---------- UNLOAD ---------- //
 
-TEST(Full_Parse_Arguments, Unload_Positive) {
+TEST(Full_Parse_Arguments, Unload_Positive) 
+{
     smod::input_arguments expected;
     expected.unload = {true, "cpp15"};
 
@@ -92,7 +101,8 @@ TEST(Full_Parse_Arguments, Unload_Positive) {
     ASSERT_EQ(test_case, expected);
 }
 
-TEST(Full_Parse_Arguments, Unload_Too_Many_Args) {
+TEST(Full_Parse_Arguments, Unload_Too_Many_Args) 
+{
     char arg[] = "smodule";
     char arg0[] = "unload";
     char arg1[] = "cpp15";
@@ -101,7 +111,8 @@ TEST(Full_Parse_Arguments, Unload_Too_Many_Args) {
     EXPECT_THROW(smod::get_arguments(4, args), std::invalid_argument);
 }
 
-TEST(Full_Parse_Arguments, Unload_Too_Few_Args) {
+TEST(Full_Parse_Arguments, Unload_Too_Few_Args) 
+{
     char arg[] = "smodule";
     char arg0[] = "unload";
     char* args[] = {arg, arg0};
@@ -109,7 +120,8 @@ TEST(Full_Parse_Arguments, Unload_Too_Few_Args) {
 }
 
 
-int main(int argc, char **argv) {
+int main(int argc, char **argv) 
+{
     ::testing::InitGoogleTest(&argc, argv);
     return RUN_ALL_TESTS();
 }

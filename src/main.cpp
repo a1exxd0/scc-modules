@@ -1,7 +1,8 @@
 #include <iostream>
 #include "command_read.h"
 
-int main(int argc, char* argv[]) {
+int main(int argc, char* argv[]) 
+{
 
     // Read arguments from command line
     try {

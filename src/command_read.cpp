@@ -75,7 +75,8 @@ bool operator==(const input_arguments &arg1, const input_arguments &arg2) {
  * "path" -> print path to modulefile
  */
 
-auto func_avail = [] [[nodiscard]] (std::vector<std::string> params) noexcept(false) {
+auto func_avail = [] [[nodiscard]] (std::vector<std::string> params) noexcept(false) 
+{
     if (params.size() != 0) {
         std::ostringstream stream;
         stream << "Expected 0 modulefile arguments for `load`, recieved " << params.size() << ". ";
@@ -91,7 +92,8 @@ auto func_avail = [] [[nodiscard]] (std::vector<std::string> params) noexcept(fa
     }
 };
 
-auto func_load = [] [[nodiscard]] (std::vector<std::string> params) noexcept(false) {
+auto func_load = [] [[nodiscard]] (std::vector<std::string> params) noexcept(false) 
+{
     if (params.size() != 1) {
         std::ostringstream stream;
         stream << "Expected 1 modulefile argument for `load`, recieved " << params.size() << ". ";
@@ -107,7 +109,8 @@ auto func_load = [] [[nodiscard]] (std::vector<std::string> params) noexcept(fal
     }
 };
 
-auto func_unload = [] [[nodiscard]] (std::vector<std::string> params) noexcept(false) {
+auto func_unload = [] [[nodiscard]] (std::vector<std::string> params) noexcept(false) 
+{
     if (params.size() != 1) {
         std::ostringstream stream;
         stream << "Expected 1 modulefile argument for `unload`, recieved " << params.size() << ". ";
@@ -130,7 +133,8 @@ subcommand_map = {
     {"unload", func_unload},
 };
 
-[[nodiscard]] input_arguments set_subcommand(std::string &s, std::vector<std::string> params) {
+[[nodiscard]] input_arguments set_subcommand(std::string &s, std::vector<std::string> params) 
+{
     // Verify input doesn't contain keywords to avoid errors and misuse
     for (const auto &param: params) {
         if (subcommand_map.find(param) != subcommand_map.end()) {
@@ -155,7 +159,8 @@ subcommand_map = {
 
 // ---------- PUBLIC METHODS ---------- //
 
-[[nodiscard]] input_arguments get_arguments(std::size_t argc, char* argv[]) {
+[[nodiscard]] input_arguments get_arguments(std::size_t argc, char* argv[]) 
+{
 
     // `smodule` command by itself is invalid.
     if (argc <= 1) {
