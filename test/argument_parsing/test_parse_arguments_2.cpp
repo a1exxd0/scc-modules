@@ -20,7 +20,7 @@ TEST(Full_Parse_Arguments_2, Swap_Positive)
     ASSERT_EQ(test_case, expected);
 }
 
-TEST(Full_Parse_Arguments_2, Swap_Alias_switch) 
+TEST(Full_Parse_Arguments_2, Swap_Alias_Switch) 
 {
     smod::input_arguments expected;
     expected.swap = {true, "cpp15", "cpp17"};
