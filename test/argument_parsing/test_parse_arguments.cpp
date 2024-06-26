@@ -135,6 +135,39 @@ TEST(Full_Parse_Arguments, Unload_Too_Few_Args)
     EXPECT_THROW(smod::get_arguments(2, args), std::invalid_argument);
 }
 
+// ---------- SPIDER ---------- //
+
+TEST(Full_Parse_Arguments, Spider_Positive) 
+{
+    smod::input_arguments expected;
+    expected.spider = {true, "cpp15"};
+
+    char arg[] = "smodule";
+    char arg0[] = "spider";
+    char arg1[] = "cpp15";
+    char* args[] = {arg, arg0, arg1};
+    auto test_case = smod::get_arguments(3, args);
+
+    ASSERT_EQ(test_case, expected);
+}
+
+TEST(Full_Parse_Arguments, Spider_Too_Many_Args) 
+{
+    char arg[] = "smodule";
+    char arg0[] = "spider";
+    char arg1[] = "cpp15";
+    char arg2[] = "openmpi/cpp15";
+    char* args[] = {arg, arg0, arg1, arg2};
+    EXPECT_THROW(smod::get_arguments(4, args), std::invalid_argument);
+}
+
+TEST(Full_Parse_Arguments, Spider_Too_Few_Args) 
+{
+    char arg[] = "smodule";
+    char arg0[] = "spider";
+    char* args[] = {arg, arg0};
+    EXPECT_THROW(smod::get_arguments(2, args), std::invalid_argument);
+}
 
 int main(int argc, char **argv) 
 {

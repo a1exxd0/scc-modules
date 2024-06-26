@@ -126,12 +126,30 @@ auto func_unload = [] [[nodiscard]] (std::vector<std::string> params) noexcept(f
     }
 };
 
+auto func_spider = [] [[nodiscard]] (std::vector<std::string> params) noexcept(false)
+{
+    if (params.size() != 1) {
+        std::ostringstream stream;
+        stream << "Expected 1 modulefile argument for `spider`, recieved " << params.size() << ". ";
+        stream << "Try `smodule help` for help.";
+
+        throw std::invalid_argument(
+            stream.str()
+        );
+    } else {
+        input_arguments res;
+        res.spider = {true, params[0]};
+        return res;
+    }
+};
+
 std::map<std::string, std::function<input_arguments(std::vector<std::string>)>>
 subcommand_map = {
     {"avail", func_avail},
     {"load", func_load},
     {"unload", func_unload},
     {"rm", func_unload},
+    {"spider", func_spider},
 };
 
 [[nodiscard]] input_arguments set_subcommand(std::string &s, std::vector<std::string> params) 
