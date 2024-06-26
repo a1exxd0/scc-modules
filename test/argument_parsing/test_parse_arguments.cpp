@@ -1,5 +1,7 @@
 #include <gtest/gtest.h>
 #include "command_read.h"
+#include <vector>
+#include <string>
 
 // ---------- BASIC PARSE CHECKS ---------- //
 TEST(Full_Parse_Arguments, Empty_Parse) 
@@ -25,6 +27,20 @@ TEST(Full_Parse_Arguments, No_Command)
     char arg1[] = "openmpi/cpp-15";
     char* args[] = {arg, arg0, arg1};
     EXPECT_THROW(smod::get_arguments(3, args), std::invalid_argument);
+}
+
+TEST(Full_Parse_Arguments, Lots_of_Arguments)
+{
+    std::vector<std::string> cmds;
+    cmds.push_back("smodule");
+    cmds.push_back("avail");
+    for (std::size_t i = 0; i < 100; i++) cmds.push_back("cpp15");
+    char* args[103];
+    for (std::size_t i = 0; i < 103; i++) {
+        args[i] = const_cast<char*>(cmds[i].c_str());
+    }
+    args[cmds.size()] = nullptr;
+    EXPECT_THROW(smod::get_arguments(102, args), std::invalid_argument);
 }
 
 // ---------- AVAIL ---------- //
