@@ -180,7 +180,7 @@ subcommand_map = {
         return todo(params);
     } else {
         throw std::invalid_argument(
-            "Argument " + s + " not recognised. Try `smodule help` for help."
+            "Argument `" + s + "` not recognised. Try `smodule help` for help."
         );
     }
 }
