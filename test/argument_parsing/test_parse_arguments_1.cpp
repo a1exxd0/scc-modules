@@ -117,6 +117,20 @@ TEST(Full_Parse_Arguments, Unload_Positive)
     ASSERT_EQ(test_case, expected);
 }
 
+TEST(Full_Parse_Arguments, Unload_Aliased_Rm) 
+{
+    smod::input_arguments expected;
+    expected.unload = {true, "cpp15"};
+
+    char arg[] = "smodule";
+    char arg0[] = "rm";
+    char arg1[] = "cpp15";
+    char* args[] = {arg, arg0, arg1};
+    auto test_case = smod::get_arguments(3, args);
+
+    ASSERT_EQ(test_case, expected);
+}
+
 TEST(Full_Parse_Arguments, Unload_Too_Many_Args) 
 {
     char arg[] = "smodule";

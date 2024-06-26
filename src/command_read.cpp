@@ -50,10 +50,10 @@ bool operator==(const input_arguments &arg1, const input_arguments &arg2) {
  * "unload" -> unload a module and whatever depends on it (warning)
  * "rm" -> alias for unload
  * "spider" -> check dependencies
+ * "swap" -> alias for switch
  * "switch" -> Switch loaded modulefile1 with modulefile2. 
  *             If modulefile1 is not specified, then it is assumed to be the
  *             currently loaded module with the same root name as modulefile2.
- * "swap" -> alias for switch
  * "save" -> save a set of loaded modules
  * "saverm" -> remove that set of modules
  * "saveshow" -> show the modules that a save uses
@@ -122,9 +122,9 @@ template<typename Func>
 auto create_func_multiple(Func func, const std::string func_name, size_t arg_count)
 {
     return [func, func_name, arg_count] [[nodiscard]] (std::vector<std::string> params) noexcept(false) {
-        if (params.size() != 1) {
+        if (params.size() != arg_count) {
             std::ostringstream stream;
-            stream << "Expected " << arg_count << "modulefile arguments for `";
+            stream << "Expected " << arg_count << " modulefile arguments for `";
             stream << func_name << "`, " << "received " << params.size() << ". ";
             stream << "Try `smodule help` for help>>.";
             throw std::invalid_argument(stream.str());
@@ -147,8 +147,8 @@ auto func_unload = create_func_one([](input_arguments &res, const std::string &p
 auto func_spider = create_func_one([](input_arguments &res, const std::string &param)
 { res.spider = {true, param}; }, "spider");
 
-// auto func_switch = create_func_multiple([](input_arguments &res, const std::vector<std::string> &params)
-// { res.swap = {true, params[0], params[1]}; }, "switch", 2);
+auto func_swap = create_func_multiple([](input_arguments &res, const std::vector<std::string> &params)
+{ res.swap = {true, params[0], params[1]}; }, "switch", 2);
 
 std::map<std::string, std::function<input_arguments(std::vector<std::string>)>>
 subcommand_map = {
@@ -157,7 +157,8 @@ subcommand_map = {
     {"unload", func_unload},
     {"rm", func_unload}, // "rm" is an alias for "unload"
     {"spider", func_spider},
-    // {""}
+    {"swap", func_swap},
+    {"switch", func_swap}, // "switch" is an alias for "swap"
 };
 
 [[nodiscard]] input_arguments set_subcommand(std::string &s, std::vector<std::string> params) 
