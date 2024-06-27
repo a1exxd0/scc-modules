@@ -43,6 +43,34 @@ TEST(Full_Parse_Arguments_2, Swap_Too_Few_Args)
     delete[] args;
 }
 
+// ---------- SAVE--------- //
+
+TEST(Full_Parse_Arguments_2, Save_Positive) 
+{
+    smod::input_arguments expected;
+    expected.save = {true, "cpp15"};
+
+    auto args = smod::format_args({"smodule", "save", "cpp15"});
+    auto test_case = smod::get_arguments(3, args);
+
+    ASSERT_EQ(test_case, expected);
+    delete[] args;
+}
+
+TEST(Full_Parse_Arguments_2, Save_Too_Many_Args) 
+{
+    auto args = smod::format_args({"smodule", "save", "cpp15", "cpp17", "cpp20"});
+    EXPECT_THROW(smod::get_arguments(5, args), std::invalid_argument);
+    delete[] args;
+}
+
+TEST(Full_Parse_Arguments_2, Save_Too_Few_Args) 
+{
+    auto args = smod::format_args({"smodule", "save"});
+    EXPECT_THROW(smod::get_arguments(2, args), std::invalid_argument);
+    delete[] args;
+}
+
 int main(int argc, char **argv) 
 {
     ::testing::InitGoogleTest(&argc, argv);
