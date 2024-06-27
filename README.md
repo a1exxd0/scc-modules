@@ -45,3 +45,8 @@ The final executable will be:
 ```sh
 ${PROJECT_SOURCE_DIR}/build/src/smodule
 ```
+To install it into `/usr/local/bin`, you can run (optionally):
+```sh
+cd ${PROJECT_SOURCE_DIR}/build
+sudo cmake --install .
+```
