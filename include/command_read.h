@@ -10,6 +10,10 @@ namespace smod {
 
 // ---------- INPUT ARGUMENT STRUCT ---------- //
 
+/**
+ * @brief Container for holding all possible commands from `smodule`
+ * 
+ */
 struct input_arguments {
     bool avail = false;
     std::pair<bool, std::string> load = {false, ""};
