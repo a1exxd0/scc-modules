@@ -113,7 +113,7 @@ auto create_func_zero(Func func, const std::string func_name)
     return [func, func_name] [[nodiscard]] (std::vector<std::string> params) noexcept(false) {
         if (params.size() != 0) {
             std::ostringstream stream;
-            stream << "Expected 0 modulefile arguments for `" << func_name << "`, ";
+            stream << "Expected 0 arguments for `" << func_name << "`, ";
             stream << "received " << params.size() << ". ";
             stream << "Try `smodule help` for help.";
             throw std::invalid_argument(stream.str());
@@ -133,7 +133,7 @@ auto create_func_one(Func func, const std::string func_name)
     return [func, func_name] [[nodiscard]] (std::vector<std::string> params) noexcept(false) {
         if (params.size() != 1) {
             std::ostringstream stream;
-            stream << "Expected 1 modulefile argument for `" << func_name << "`, ";
+            stream << "Expected 1 argument for `" << func_name << "`, ";
             stream << "received " << params.size() << ". ";
             stream << "Try `smodule help` for help.";
             throw std::invalid_argument(stream.str());
@@ -153,7 +153,7 @@ auto create_func_multiple(Func func, const std::string func_name, size_t arg_cou
     return [func, func_name, arg_count] [[nodiscard]] (std::vector<std::string> params) noexcept(false) {
         if (params.size() != arg_count) {
             std::ostringstream stream;
-            stream << "Expected " << arg_count << " modulefile arguments for `";
+            stream << "Expected " << arg_count << " arguments for `";
             stream << func_name << "`, " << "received " << params.size() << ". ";
             stream << "Try `smodule help` for help>>.";
             throw std::invalid_argument(stream.str());
