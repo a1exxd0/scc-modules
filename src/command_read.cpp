@@ -197,6 +197,19 @@ auto func_swap = create_func_multiple([](input_arguments &res, const std::vector
 auto func_save = create_func_one([](input_arguments &res, const std::string &param)
 { res.save = {true, param}; }, "save");
 
+auto func_saverm = create_func_one([](input_arguments &res, const std::string &param)
+{ res.saverm = {true, param}; }, "saverm");
+
+auto func_saveshow = create_func_one([](input_arguments &res, const std::string &param)
+{ res.saveshow = {true, param}; }, "saveshow");
+
+auto func_savelist = create_func_zero([](input_arguments &res)
+{ res.savelist = {true}; }, "savelist");
+
+auto func_restore = create_func_one([](input_arguments &res, const std::string &param)
+{ res.restore = {true, param}; }, "restore");
+
+
 std::map<std::string, std::function<input_arguments(std::vector<std::string>)>>
 subcommand_map = 
 {
@@ -208,6 +221,10 @@ subcommand_map =
     {"swap", func_swap},
     {"switch", func_swap}, // "switch" is an alias for "swap"
     {"save", func_save},
+    {"saverm", func_saverm},
+    {"saveshow", func_saveshow},
+    {"savelist", func_savelist},
+    {"restore", func_restore},
 };
 
 [[nodiscard]] input_arguments set_subcommand(std::string &s, std::vector<std::string> params) 
