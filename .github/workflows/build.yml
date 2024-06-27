@@ -2,7 +2,7 @@ name: CMake and CTest verification for Release
 
 on:
   push:
-    branches: [ "master", "main" ]
+    branches: [ "master", "main", "fix-macos-build-leaks" ]
   pull_request:
     branches: [ "master", "main"  ]
 
