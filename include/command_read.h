@@ -43,6 +43,7 @@ bool operator==(const input_arguments &arg1, const input_arguments &arg2);
  * 
  * @param argc: argument count (including the executable)
  * @param argv: array of arguments of length argc
+ * @return input_arguments formatted appropriately
  * @throws std::invalid argument if something unexpected is inputted
  */
 input_arguments get_arguments(std::size_t argc, char* argv[]);

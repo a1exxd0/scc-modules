@@ -179,6 +179,8 @@ auto create_func_multiple(Func func, const std::string func_name, size_t arg_cou
     };
 }
 
+// ---------- FUNCTIONS FOR INTERPRETING ---------- //
+
 auto func_avail = create_func_zero([](input_arguments &res)
 { res.avail = {true}; }, "avail");
 
@@ -209,7 +211,9 @@ auto func_savelist = create_func_zero([](input_arguments &res)
 auto func_restore = create_func_one([](input_arguments &res, const std::string &param)
 { res.restore = {true, param}; }, "restore");
 
-
+/**
+ * @brief Maps the string command to the appropriate function for parsing
+ */
 std::map<std::string, std::function<input_arguments(std::vector<std::string>)>>
 subcommand_map = 
 {
@@ -227,6 +231,16 @@ subcommand_map =
     {"restore", func_restore},
 };
 
+/**
+ * @brief Sanitizes the input for anything more than one keyword in the message.
+ * Also then checks the command use actually exists, and if so, parse the rest
+ * of the command.
+ * 
+ * @param s: string subcommand
+ * @param params: every other parameter of input
+ * @return: input_arguments of formatted command
+ * @throws std::invalid_argument if something unexpected appears
+ */
 [[nodiscard]] input_arguments set_subcommand(std::string &s, std::vector<std::string> params) 
 {
     // Verify input doesn't contain keywords to avoid errors and misuse
