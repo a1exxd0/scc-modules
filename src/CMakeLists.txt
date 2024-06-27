@@ -6,3 +6,7 @@ file(GLOB SOURCES ${PROJECT_SOURCE_DIR}/src/*.cpp)
 
 # Add executable
 add_executable(smodule ${SOURCES} main.cpp)
+
+install(TARGETS smodule
+    RUNTIME DESTINATION bin
+)
