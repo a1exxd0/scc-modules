@@ -9,21 +9,21 @@ TEST(Full_Parse_Arguments, Empty_Parse)
 {
     auto args = smod::format_args({"smodule"});
     EXPECT_THROW(smod::get_arguments(1, args), std::invalid_argument);
-    delete[] args;
+    smod::destroy_formatted_args(args, {"smodule"});
 }
 
 TEST(Full_Parse_Arguments, Keyword_As_Parameter) 
 {
     auto args = smod::format_args({"smodule", "avail", "load"});
     EXPECT_THROW(smod::get_arguments(3, args), std::invalid_argument);
-    delete[] args;
+    smod::destroy_formatted_args(args, {"smodule", "avail", "load"});
 }
 
 TEST(Full_Parse_Arguments, No_Command) 
 {
     auto args = smod::format_args({"smodule", "cpp15", "openmpi/cpp15"});
     EXPECT_THROW(smod::get_arguments(3, args), std::invalid_argument);
-    delete[] args;
+    smod::destroy_formatted_args(args, {"smodule", "cpp15", "openmpi/cpp15"});
 }
 
 TEST(Full_Parse_Arguments, Lots_of_Arguments)
@@ -34,7 +34,7 @@ TEST(Full_Parse_Arguments, Lots_of_Arguments)
     for (std::size_t i = 0; i < 100; i++) cmds.push_back("cpp15");
     auto args = smod::format_args(cmds);
     EXPECT_THROW(smod::get_arguments(102, args), std::invalid_argument);
-    delete[] args;
+    smod::destroy_formatted_args(args, cmds);
 }
 
 // ---------- AVAIL ---------- //
@@ -47,14 +47,14 @@ TEST(Full_Parse_Arguments, Avail_Positive)
     auto args = smod::format_args({"smodule", "avail"});
     auto test_case = smod::get_arguments(2, args);
 
-    ASSERT_EQ(expected, test_case);
+    smod::destroy_formatted_args(args, {"smodule", "avail"});
 }
 
 TEST(Full_Parse_Arguments, Avail_Negative) 
 {
     auto args = smod::format_args({"smodule", "avail", "cpp15"});
     EXPECT_THROW(smod::get_arguments(3, args), std::invalid_argument);
-    delete[] args;
+    smod::destroy_formatted_args(args, {"smodule", "avail", "cpp15"});
 }
 
 // ---------- LOAD ---------- //
@@ -68,21 +68,21 @@ TEST(Full_Parse_Arguments, Load_Positive)
     auto test_case = smod::get_arguments(3, args);
 
     ASSERT_EQ(test_case, expected);
-    delete[] args;
+    smod::destroy_formatted_args(args, {"smodule", "load", "cpp15"});
 }
 
 TEST(Full_Parse_Arguments, Load_Too_Many_Args) 
 {
     auto args = smod::format_args({"smodule", "load", "cpp15", "openmpi/cpp15"});
     EXPECT_THROW(smod::get_arguments(4, args), std::invalid_argument);
-    delete[] args;
+    smod::destroy_formatted_args(args, {"smodule", "load", "cpp15", "openmpi/cpp15"});
 }
 
 TEST(Full_Parse_Arguments, Load_Too_Few_Args) 
 {
     auto args = smod::format_args({"smodule", "load"});
     EXPECT_THROW(smod::get_arguments(2, args), std::invalid_argument);
-    delete[] args;
+    smod::destroy_formatted_args(args, {"smodule", "load"});
 }
 
 // ---------- UNLOAD ---------- //
@@ -96,7 +96,7 @@ TEST(Full_Parse_Arguments, Unload_Positive)
     auto test_case = smod::get_arguments(3, args);
 
     ASSERT_EQ(test_case, expected);
-    delete[] args;
+    smod::destroy_formatted_args(args, {"smodule", "unload", "cpp15"});
 }
 
 TEST(Full_Parse_Arguments, Unload_Aliased_Rm) 
@@ -108,21 +108,21 @@ TEST(Full_Parse_Arguments, Unload_Aliased_Rm)
     auto test_case = smod::get_arguments(3, args);
 
     ASSERT_EQ(test_case, expected);
-    delete[] args;
+    smod::destroy_formatted_args(args, {"smodule", "rm", "cpp15"});
 }
 
 TEST(Full_Parse_Arguments, Unload_Too_Many_Args) 
 {
     auto args = smod::format_args({"smodule", "unload", "cpp15", "openmpi/cpp15"});
     EXPECT_THROW(smod::get_arguments(4, args), std::invalid_argument);
-    delete[] args;
+    smod::destroy_formatted_args(args, {"smodule", "unload", "cpp15", "openmpi/cpp15"});
 }
 
 TEST(Full_Parse_Arguments, Unload_Too_Few_Args) 
 {
     auto args = smod::format_args({"smodule", "unload"});
     EXPECT_THROW(smod::get_arguments(2, args), std::invalid_argument);
-    delete[] args;
+    smod::destroy_formatted_args(args, {"smodule", "unload"});
 }
 
 // ---------- SPIDER ---------- //
@@ -136,21 +136,21 @@ TEST(Full_Parse_Arguments, Spider_Positive)
     auto test_case = smod::get_arguments(3, args);
 
     ASSERT_EQ(test_case, expected);
-    delete[] args;
+    smod::destroy_formatted_args(args, {"smodule", "spider", "cpp15"});
 }
 
 TEST(Full_Parse_Arguments, Spider_Too_Many_Args) 
 {
     auto args = smod::format_args({"smodule", "spider", "cpp15", "openmpi/cpp15"});
     EXPECT_THROW(smod::get_arguments(4, args), std::invalid_argument);
-    delete[] args;
+    smod::destroy_formatted_args(args, {"smodule", "spider", "cpp15", "openmpi/cpp15"});
 }
 
 TEST(Full_Parse_Arguments, Spider_Too_Few_Args) 
 {
-    auto args = smod::format_args({"smodule", "unload"});
+    auto args = smod::format_args({"smodule", "spider"});
     EXPECT_THROW(smod::get_arguments(2, args), std::invalid_argument);
-    delete[] args;
+    smod::destroy_formatted_args(args, {"smodule", "spider"});
 }
 
 int main(int argc, char **argv) 

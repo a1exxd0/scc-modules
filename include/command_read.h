@@ -59,9 +59,30 @@ char** format_args(std::vector<std::string> &&cmds);
  * @brief Formats a vector of string arguments into expected format
  * char*[] for passing into get_arguments(...)
  * 
+ * 
+ * You MUST remember to use destroy_formatted_args after this.
+ * 
  * @return an array of c-style strings of length (cmds.size() + 1)
  */
 char** format_args(std::vector<std::string> &cmds);
+
+/**
+ * @brief Explicit destructor for formatted args for testing. Requires
+ * that you keep whatever you passed into format_args()
+ * 
+ * @param args: pointer to heap-allocated array
+ * @param cmds: vector you passed into format_args
+ */
+void destroy_formatted_args(char** args, std::vector<std::string> &cmds);
+
+/**
+ * @brief Explicit destructor for formatted args for testing. Requires
+ * that you keep whatever you passed into format_args()
+ * 
+ * @param args: pointer to heap-allocated array
+ * @param cmds: vector you passed into format_args
+ */
+void destroy_formatted_args(char** args, std::vector<std::string> &&cmds);
     
 } // namespace smod
 

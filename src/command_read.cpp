@@ -5,6 +5,7 @@
 #include <map>
 #include <functional>
 #include <sstream>
+#include <cstring>
 
 /**
  * TODO:
@@ -45,24 +46,43 @@ bool operator==(const input_arguments &arg1, const input_arguments &arg2)
 
 char** format_args(std::vector<std::string> &&cmds) 
 {
-    char** args = new char*[cmds.size()];
+    char** args = new char*[cmds.size() + 1]; // Allocate array of char* pointers
 
     for (std::size_t i = 0; i < cmds.size(); i++) {
-        args[i] = const_cast<char*>(cmds[i].c_str());
+        args[i] = new char[cmds[i].size() + 1]; // Allocate memory for each string (+1 for null terminator)
+        std::strcpy(args[i], cmds[i].c_str()); // Copy string into newly allocated memory
     }
 
+    args[cmds.size()] = nullptr; // Null-terminate the array
     return args;
 }
 
 char** format_args(std::vector<std::string> &cmds) 
 {
-    char** args = new char*[cmds.size()];
+    char** args = new char*[cmds.size() + 1]; // Allocate array of char* pointers
 
     for (std::size_t i = 0; i < cmds.size(); i++) {
-        args[i] = const_cast<char*>(cmds[i].c_str());
+        args[i] = new char[cmds[i].size() + 1]; // Allocate memory for each string (+1 for null terminator)
+        std::strcpy(args[i], cmds[i].c_str()); // Copy string into newly allocated memory
     }
 
+    args[cmds.size()] = nullptr; // Null-terminate the array
     return args;
+}
+
+void destroy_formatted_args(char** args, std::vector<std::string> &cmds) {
+    for (std::size_t i = 0; i < cmds.size(); i++) {
+        delete[] args[i];
+    }
+    delete[] args;
+}
+
+void destroy_formatted_args(char** args, std::vector<std::string> &&cmds) {
+    for (std::size_t i = 0; i < cmds.size(); i++) {
+        delete[] args[i];
+    }
+
+    delete[] args;
 }
 
 // ---------- PRIVATE METHODS ---------- //
