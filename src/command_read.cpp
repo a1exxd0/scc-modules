@@ -70,21 +70,6 @@ char** format_args(std::vector<std::string> &cmds)
     return args;
 }
 
-void destroy_formatted_args(char** args, std::vector<std::string> &cmds) {
-    for (std::size_t i = 0; i < cmds.size(); i++) {
-        delete[] args[i];
-    }
-    delete[] args;
-}
-
-void destroy_formatted_args(char** args, std::vector<std::string> &&cmds) {
-    for (std::size_t i = 0; i < cmds.size(); i++) {
-        delete[] args[i];
-    }
-
-    delete[] args;
-}
-
 // ---------- PRIVATE METHODS ---------- //
 
 /**

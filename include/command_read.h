@@ -67,24 +67,7 @@ char** format_args(std::vector<std::string> &&cmds);
  */
 char** format_args(std::vector<std::string> &cmds);
 
-/**
- * @brief Explicit destructor for formatted args for testing. Requires
- * that you keep whatever you passed into format_args()
- * 
- * @param args: pointer to heap-allocated array
- * @param cmds: vector you passed into format_args
- */
-void destroy_formatted_args(char** args, std::vector<std::string> &cmds);
 
-/**
- * @brief Explicit destructor for formatted args for testing. Requires
- * that you keep whatever you passed into format_args()
- * 
- * @param args: pointer to heap-allocated array
- * @param cmds: vector you passed into format_args
- */
-void destroy_formatted_args(char** args, std::vector<std::string> &&cmds);
-    
 } // namespace smod
 
 
